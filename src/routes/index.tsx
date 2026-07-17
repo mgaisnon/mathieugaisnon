@@ -236,7 +236,7 @@ function CVPage() {
                 Mathieu <span className="text-primary">Gaisnon</span>
               </h1>
               <p className="mt-3 text-lg text-muted-foreground md:text-xl">
-                Développeur Full-Stack — Toulouse / Montauban
+                Développeur Full-Stack / Analyse Programmeur — Toulouse / Montauban
               </p>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/85">
                 Actuellement en fin de Master EISI à l'EPSI de Toulouse, je termine
