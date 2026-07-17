@@ -170,7 +170,23 @@ function CVPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative min-h-screen bg-background text-foreground">
+      {/* Animated backdrop */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[720px] overflow-hidden">
+        <div className="absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full bg-primary/30 animated-blob" />
+        <div className="absolute -top-10 right-[-6rem] h-[380px] w-[380px] rounded-full bg-accent/60 animated-blob" style={{ animationDelay: "-4s" }} />
+        <div className="absolute top-40 left-1/3 h-[300px] w-[300px] rounded-full bg-primary-soft animated-blob" style={{ animationDelay: "-8s" }} />
+        <div
+          className="absolute inset-0 opacity-[0.35] dark:opacity-[0.15]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, var(--color-foreground) 1px, transparent 0)",
+            backgroundSize: "22px 22px",
+            maskImage: "linear-gradient(to bottom, black, transparent 80%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black, transparent 80%)",
+          }}
+        />
+      </div>
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
