@@ -223,7 +223,7 @@ function CVPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-6">
+      <main className="relative mx-auto max-w-6xl px-6">
         {/* Moi */}
         <section id="moi" className="pt-16 pb-24 md:pt-24 md:pb-32">
           <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center">
