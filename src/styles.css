@@ -95,6 +95,33 @@
   }
   h1, h2, h3, .font-display {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    font-weight: 700;
+    letter-spacing: -0.03em;
   }
+}
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -20px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+@keyframes shimmer-x {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+@utility animated-blob {
+  animation: blob-drift 14s ease-in-out infinite;
+  filter: blur(48px);
+}
+@utility animated-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer-x 8s linear infinite;
+}
+@utility animated-float {
+  animation: float-y 6s ease-in-out infinite;
 }
