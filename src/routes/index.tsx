@@ -233,7 +233,7 @@ function CVPage() {
                 Disponible pour un CDI
               </span>
               <h1 className="mt-5 font-display text-5xl leading-tight md:text-7xl">
-                Mathieu <span className="text-primary italic">Gaisnon</span>
+                Mathieu <span className="text-primary">Gaisnon</span>
               </h1>
               <p className="mt-3 text-lg text-muted-foreground md:text-xl">
                 Développeur Full-Stack — Toulouse / Montauban
