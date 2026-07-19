@@ -80,6 +80,38 @@
   --ring: oklch(0.78 0.11 55);
 }
 
+.as400 {
+  --radius: 0px;
+  --background: #010401;
+  --foreground: #39ff6a;
+  --card: #041704;
+  --card-foreground: #39ff6a;
+  --popover: #041704;
+  --popover-foreground: #39ff6a;
+  --primary: #39ff6a;
+  --primary-foreground: #010401;
+  --primary-soft: #0c2b0c;
+  --secondary: #0a220a;
+  --secondary-foreground: #39ff6a;
+  --muted: #071c07;
+  --muted-foreground: #2fa657;
+  --accent: #0c2b0c;
+  --accent-foreground: #39ff6a;
+  --destructive: #ff5555;
+  --destructive-foreground: #010401;
+  --border: #1f6e33;
+  --input: #0a220a;
+  --ring: #39ff6a;
+}
+
+@keyframes as400-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@utility animate-as400-blink {
+  animation: as400-blink 1s step-end infinite;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);

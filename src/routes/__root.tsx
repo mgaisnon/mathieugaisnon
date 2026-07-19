@@ -63,7 +63,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&m)){document.documentElement.classList.add('dark');}}catch(e){}})();`;
+const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');var m=window.matchMedia('(prefers-color-scheme: dark)').matches;if(t==='dark'||(!t&&m)){document.documentElement.classList.add('dark');}if(localStorage.getItem('as400')==='1'){document.documentElement.classList.add('as400');}}catch(e){}})();`;
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -77,7 +77,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "CV en ligne de Mathieu Gaisnon, développeur full-stack/Analyste programmeur basé à Toulouse.",
       },
       { name: "author", content: "Mathieu Gaisnon" },
-      { property: "og:title", content: "Mathieu Gaisnon — Développeur Full-Stack/Analyste Programmeu" },
+      {
+        property: "og:title",
+        content: "Mathieu Gaisnon — Développeur Full-Stack/Analyste Programmeu",
+      },
       {
         property: "og:description",
         content:
@@ -85,10 +88,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Mathieu Gaisnon — Développeur Full-Stack/Analyste Programmeu" },
-      { name: "twitter:description", content: "CV en ligne de Mathieu Gaisnon, développeur full-stack/Analyste programmeur basé à Toulouse." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b1827ca-f18a-4549-98f7-68c53b3df9ad/id-preview-a4d96a7d--79c342ec-87ba-49aa-bb03-c4356e72c039.lovable.app-1784325780979.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b1827ca-f18a-4549-98f7-68c53b3df9ad/id-preview-a4d96a7d--79c342ec-87ba-49aa-bb03-c4356e72c039.lovable.app-1784325780979.png" },
+      {
+        name: "twitter:title",
+        content: "Mathieu Gaisnon — Développeur Full-Stack/Analyste Programmeu",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "CV en ligne de Mathieu Gaisnon, développeur full-stack/Analyste programmeur basé à Toulouse.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b1827ca-f18a-4549-98f7-68c53b3df9ad/id-preview-a4d96a7d--79c342ec-87ba-49aa-bb03-c4356e72c039.lovable.app-1784325780979.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2b1827ca-f18a-4549-98f7-68c53b3df9ad/id-preview-a4d96a7d--79c342ec-87ba-49aa-bb03-c4356e72c039.lovable.app-1784325780979.png",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

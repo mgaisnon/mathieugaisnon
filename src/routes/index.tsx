@@ -17,6 +17,7 @@ import {
   Briefcase,
   GraduationCap,
   Languages,
+  MonitorSmartphone,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -149,8 +150,100 @@ function useTheme() {
   return { theme, toggle: () => setTheme((t) => (t === "dark" ? "light" : "dark")) };
 }
 
+function useAs400Mode() {
+  const [as400, setAs400] = useState(false);
+  useEffect(() => {
+    setAs400(localStorage.getItem("as400") === "1");
+  }, []);
+  useEffect(() => {
+    document.documentElement.classList.toggle("as400", as400);
+    localStorage.setItem("as400", as400 ? "1" : "0");
+  }, [as400]);
+  return { as400, toggle: () => setAs400((v) => !v) };
+}
+
+const AS400_OPTIONS = [
+  { num: "1", id: "moi", label: "MOI" },
+  { num: "2", id: "competences", label: "COMPETENCES" },
+  { num: "3", id: "experiences", label: "EXPERIENCES" },
+  { num: "4", id: "diplomes", label: "DIPLOMES" },
+  { num: "5", id: "contact", label: "CONTACT" },
+];
+
+function AS400Menu({ onNavigate }: { onNavigate: (id: string) => void }) {
+  const [input, setInput] = useState("");
+  const [error, setError] = useState(false);
+
+  function submit(raw: string) {
+    const opt = AS400_OPTIONS.find((o) => o.num === raw.trim());
+    if (opt) {
+      onNavigate(opt.id);
+      setInput("");
+      setError(false);
+    } else {
+      setError(true);
+    }
+  }
+
+  return (
+    <div className="sticky top-[57px] z-30 border-b border-border bg-background/95 px-6 py-4 font-mono text-foreground backdrop-blur-sm">
+      <div className="mx-auto max-w-6xl">
+        <p className="text-[11px] tracking-wider opacity-70">
+          MGCV001&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MENU
+          PRINCIPAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MATHIEU GAISNON
+        </p>
+        <p className="mt-3 text-sm">Sélectionnez une option et appuyez sur Entrée :</p>
+        <ul className="mt-2 grid gap-1 text-sm sm:grid-cols-2 md:grid-cols-5">
+          {AS400_OPTIONS.map((o) => (
+            <li key={o.num}>
+              <button
+                type="button"
+                onClick={() => submit(o.num)}
+                className="underline-offset-4 hover:underline"
+              >
+                {o.num}. {o.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            submit(input);
+          }}
+          className="mt-4 flex items-center gap-2"
+        >
+          <label htmlFor="as400-option" className="text-sm">
+            OPTION ===&gt;
+          </label>
+          <input
+            id="as400-option"
+            value={input}
+            onChange={(e) => {
+              setInput(e.target.value.replace(/[^0-9]/g, "").slice(0, 1));
+              setError(false);
+            }}
+            className="w-10 border-0 border-b border-foreground bg-transparent px-1 text-sm outline-none"
+            autoComplete="off"
+            inputMode="numeric"
+          />
+          <span aria-hidden className="animate-as400-blink text-sm">
+            █
+          </span>
+        </form>
+        {error && (
+          <p className="mt-2 text-xs text-destructive">
+            OPTION INVALIDE — VALEURS AUTORISÉES : 1 À 5
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function CVPage() {
   const { theme, toggle } = useTheme();
+  const { as400, toggle: toggleAs400 } = useAs400Mode();
   const [active, setActive] = useState("moi");
 
   useEffect(() => {
@@ -170,23 +263,45 @@ function CVPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground">
+    <div
+      className={`relative min-h-screen bg-background text-foreground ${as400 ? "font-mono" : ""}`}
+    >
       {/* Animated backdrop */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[720px] overflow-hidden">
-        <div className="absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full bg-primary/30 animated-blob" />
-        <div className="absolute -top-10 right-[-6rem] h-[380px] w-[380px] rounded-full bg-accent/60 animated-blob" style={{ animationDelay: "-4s" }} />
-        <div className="absolute top-40 left-1/3 h-[300px] w-[300px] rounded-full bg-primary-soft animated-blob" style={{ animationDelay: "-8s" }} />
+      {as400 ? (
         <div
-          className="absolute inset-0 opacity-[0.35] dark:opacity-[0.15]"
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-50 opacity-[0.12]"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 1px 1px, var(--color-foreground) 1px, transparent 0)",
-            backgroundSize: "22px 22px",
-            maskImage: "linear-gradient(to bottom, black, transparent 80%)",
-            WebkitMaskImage: "linear-gradient(to bottom, black, transparent 80%)",
+              "repeating-linear-gradient(to bottom, transparent 0px, transparent 1px, var(--color-foreground) 2px, transparent 3px)",
           }}
         />
-      </div>
+      ) : (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 -z-0 h-[720px] overflow-hidden"
+        >
+          <div className="absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full bg-primary/30 animated-blob" />
+          <div
+            className="absolute -top-10 right-[-6rem] h-[380px] w-[380px] rounded-full bg-accent/60 animated-blob"
+            style={{ animationDelay: "-4s" }}
+          />
+          <div
+            className="absolute top-40 left-1/3 h-[300px] w-[300px] rounded-full bg-primary-soft animated-blob"
+            style={{ animationDelay: "-8s" }}
+          />
+          <div
+            className="absolute inset-0 opacity-[0.35] dark:opacity-[0.15]"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, var(--color-foreground) 1px, transparent 0)",
+              backgroundSize: "22px 22px",
+              maskImage: "linear-gradient(to bottom, black, transparent 80%)",
+              WebkitMaskImage: "linear-gradient(to bottom, black, transparent 80%)",
+            }}
+          />
+        </div>
+      )}
       {/* Header */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -194,9 +309,7 @@ function CVPage() {
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground font-display text-lg">
               M
             </span>
-            <span className="hidden font-display text-lg sm:inline">
-              Mathieu Gaisnon
-            </span>
+            <span className="hidden font-display text-lg sm:inline">Mathieu Gaisnon</span>
           </a>
           <nav className="hidden items-center gap-1 md:flex">
             {NAV.map((n) => (
@@ -213,15 +326,38 @@ function CVPage() {
               </a>
             ))}
           </nav>
-          <button
-            onClick={toggle}
-            aria-label="Changer le thème"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-accent"
-          >
-            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleAs400}
+              aria-pressed={as400}
+              aria-label="Basculer en mode AS400"
+              className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-colors ${
+                as400
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-card text-foreground hover:bg-accent"
+              }`}
+            >
+              {as400 ? <MonitorSmartphone className="h-4 w-4" /> : <Terminal className="h-4 w-4" />}
+              {as400 ? "WEB" : "AS400"}
+            </button>
+            <button
+              onClick={toggle}
+              aria-label="Changer le thème"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-accent"
+            >
+              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+          </div>
         </div>
       </header>
+
+      {as400 && (
+        <AS400Menu
+          onNavigate={(id) => {
+            document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
+      )}
 
       <main className="relative mx-auto max-w-6xl px-6">
         {/* Moi */}
@@ -239,11 +375,11 @@ function CVPage() {
                 Développeur Full-Stack / Analyse Programmeur — Toulouse / Montauban
               </p>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-foreground/85">
-                Actuellement en fin de Master EISI à l'EPSI de Toulouse, je termine
-                ma dernière année en alternance après trois ans chez Pro à Pro.
-                Habitué à jongler entre technologies modernes et systèmes legacy
-                critiques, j'ai développé une vraie capacité d'adaptation et le sens
-                du détail nécessaire quand l'erreur n'est pas permise.
+                Actuellement en fin de Master EISI à l'EPSI de Toulouse, je termine ma dernière
+                année en alternance après trois ans chez Pro à Pro. Habitué à jongler entre
+                technologies modernes et systèmes legacy critiques, j'ai développé une vraie
+                capacité d'adaptation et le sens du détail nécessaire quand l'erreur n'est pas
+                permise.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
@@ -281,10 +417,7 @@ function CVPage() {
                   label="linkedin.com/in/mathieu-gaisnon"
                   external
                 />
-                <ContactRow
-                  icon={<MapPin className="h-4 w-4" />}
-                  label="Toulouse · Montauban"
-                />
+                <ContactRow icon={<MapPin className="h-4 w-4" />} label="Toulouse · Montauban" />
               </ul>
               <div className="mt-5 border-t border-border pt-4">
                 <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -333,7 +466,9 @@ function CVPage() {
                   </div>
                 ) : (
                   <div className="mt-5 flex flex-wrap gap-1.5">
-                    {s.items?.map((i) => <Tag key={i}>{i}</Tag>)}
+                    {s.items?.map((i) => (
+                      <Tag key={i}>{i}</Tag>
+                    ))}
                   </div>
                 )}
               </div>
@@ -482,9 +617,7 @@ function Section({
         <div>
           <p className="font-mono text-xs tracking-widest text-primary">{eyebrow}</p>
           <h2 className="mt-2 font-display text-4xl md:text-5xl">{title}</h2>
-          {subtitle && (
-            <p className="mt-2 max-w-2xl text-muted-foreground">{subtitle}</p>
-          )}
+          {subtitle && <p className="mt-2 max-w-2xl text-muted-foreground">{subtitle}</p>}
         </div>
       </div>
       {children}
@@ -562,9 +695,7 @@ function ContactCard({
         {icon}
       </span>
       <div className="mt-6">
-        <p className="text-xs uppercase tracking-widest text-muted-foreground">
-          {label}
-        </p>
+        <p className="text-xs uppercase tracking-widest text-muted-foreground">{label}</p>
         <p className="mt-1 flex items-center gap-1 font-display text-lg text-foreground">
           {value}
           <ArrowUpRight className="h-4 w-4 text-primary transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
