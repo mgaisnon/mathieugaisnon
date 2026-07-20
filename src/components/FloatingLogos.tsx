@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const LOGOS = [
-  { name: "IBM", src: "https://cdn.simpleicons.org/ibm" },
+  { name: "IBM", src: "/logos/ibm.png" },
   { name: "React", src: "https://cdn.simpleicons.org/react" },
   { name: "PHP", src: "https://cdn.simpleicons.org/php" },
   { name: "Python", src: "https://cdn.simpleicons.org/python" },
@@ -11,12 +11,15 @@ const LOGOS = [
   { name: "Selenium", src: "https://cdn.simpleicons.org/selenium" },
   { name: "Docker", src: "https://cdn.simpleicons.org/docker" },
   { name: "Linux", src: "https://cdn.simpleicons.org/linux" },
-  { name: "Java", src: "https://cdn.simpleicons.org/java" },
+  { name: "Java", src: "/logos/java.png" },
   { name: "Angular", src: "https://cdn.simpleicons.org/angular" },
+  { name: "HTML5", src: "https://cdn.simpleicons.org/html5" },
+  { name: "CSS3", src: "https://cdn.simpleicons.org/css" },
+  { name: "JavaScript", src: "https://cdn.simpleicons.org/javascript" },
 ];
 
-const MIN_SIZE = 26;
-const MAX_SIZE = 40;
+const MIN_SIZE = 38;
+const MAX_SIZE = 58;
 const MIN_SPEED = 0.25;
 const MAX_SPEED = 0.55;
 
@@ -55,7 +58,7 @@ export function FloatingLogos() {
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
             size,
-            opacity: 0.18 + Math.random() * 0.14,
+            opacity: 0.3 + Math.random() * 0.2,
           };
         });
       } else {
@@ -125,13 +128,15 @@ export function FloatingLogos() {
           alt={LOGOS[i].name}
           width={l.size}
           height={l.size}
-          className="absolute select-none grayscale"
+          className="absolute select-none grayscale brightness-125 dark:invert as400:invert"
+          onError={(e) => {
+            e.currentTarget.style.display = "none";
+          }}
           style={{
             transform: `translate3d(${l.x}px, ${l.y}px, 0)`,
             width: l.size,
             height: l.size,
             opacity: l.opacity,
-            filter: "grayscale(100%) brightness(1.2)",
           }}
         />
       ))}
