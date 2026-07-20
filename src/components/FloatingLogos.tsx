@@ -55,7 +55,7 @@ export function FloatingLogos() {
             vx: Math.cos(angle) * speed,
             vy: Math.sin(angle) * speed,
             size,
-            opacity: 0.12 + Math.random() * 0.12,
+            opacity: 0.18 + Math.random() * 0.14,
           };
         });
       } else {
