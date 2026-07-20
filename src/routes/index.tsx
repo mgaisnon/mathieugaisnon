@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
 });
 
 const NAV = [
-  { id: "moi", label: "Moi" },
+  { id: "moi", label: "Présentation" },
   { id: "competences", label: "Compétences" },
   { id: "experiences", label: "Expériences" },
   { id: "diplomes", label: "Diplômes" },
@@ -163,7 +163,7 @@ function useAs400Mode() {
 }
 
 const AS400_OPTIONS = [
-  { num: "1", id: "moi", label: "MOI" },
+  { num: "1", id: "moi", label: "PRESENTATION" },
   { num: "2", id: "competences", label: "COMPETENCES" },
   { num: "3", id: "experiences", label: "EXPERIENCES" },
   { num: "4", id: "diplomes", label: "DIPLOMES" },
@@ -360,8 +360,8 @@ function CVPage() {
       )}
 
       <main className="relative mx-auto max-w-6xl px-6">
-        {/* Moi */}
-        <section id="moi" className="pt-16 pb-24 md:pt-24 md:pb-32">
+        {/* Présentation */}
+        <section id="moi" className="scroll-mt-32 pt-16 pb-24 md:scroll-mt-36 md:pt-24 md:pb-32">
           <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
