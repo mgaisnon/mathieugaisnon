@@ -37,6 +37,8 @@ const SKILLS = [
   {
     icon: Code2,
     title: "Langages",
+    color: "var(--cat-1)",
+    soft: "var(--cat-1-soft)",
     groups: [
       { label: "Frontend", items: ["ReactJS", "TypeScript", "Angular", "HTML/CSS/JS"] },
       { label: "Backend", items: ["RPG free", "RPG 4", "CL", "ExpressJS", "Python"] },
@@ -46,16 +48,22 @@ const SKILLS = [
   {
     icon: Terminal,
     title: "Systèmes d'exploitation",
+    color: "var(--cat-2)",
+    soft: "var(--cat-2-soft)",
     items: ["IBM i (AS400)", "Linux"],
   },
   {
     icon: Database,
     title: "Bases de données",
+    color: "var(--cat-3)",
+    soft: "var(--cat-3-soft)",
     items: ["IBM DB2", "MySQL", "SQL", "PostgreSQL", "NoSQL"],
   },
   {
     icon: Wrench,
     title: "DevOps & Outils",
+    color: "var(--cat-4)",
+    soft: "var(--cat-4-soft)",
     items: [
       "GitLab CI/CD",
       "Docker",
@@ -70,6 +78,8 @@ const SKILLS = [
   {
     icon: Sparkles,
     title: "Savoir-faire",
+    color: "var(--cat-5)",
+    soft: "var(--cat-5-soft)",
     items: [
       "Maintenance applicative",
       "Analyse d'impact",
@@ -362,7 +372,10 @@ function CVPage() {
 
       <main className="relative mx-auto max-w-6xl px-6">
         {/* Présentation */}
-        <section id="moi" className="relative scroll-mt-32 pt-16 pb-24 md:scroll-mt-36 md:pt-24 md:pb-32">
+        <section
+          id="moi"
+          className="relative scroll-mt-32 pt-16 pb-24 md:scroll-mt-36 md:pt-24 md:pb-32"
+        >
           <FloatingLogos />
           <div className="relative grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center">
             <div>
@@ -442,10 +455,19 @@ function CVPage() {
             {SKILLS.map((s) => (
               <div
                 key={s.title}
-                className="group rounded-2xl border border-border bg-card p-6 transition-all hover:border-primary/40 hover:shadow-md"
+                className="group rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-md"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = `color-mix(in oklch, ${s.color} 45%, var(--border))`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "";
+                }}
               >
                 <div className="flex items-center gap-3">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary-soft text-primary">
+                  <span
+                    className="flex h-10 w-10 items-center justify-center rounded-xl"
+                    style={{ backgroundColor: s.soft, color: s.color }}
+                  >
                     <s.icon className="h-5 w-5" />
                   </span>
                   <h3 className="font-display text-xl">{s.title}</h3>
@@ -460,7 +482,9 @@ function CVPage() {
                         </p>
                         <div className="mt-2 flex flex-wrap gap-1.5">
                           {g.items.map((i) => (
-                            <Tag key={i}>{i}</Tag>
+                            <Tag key={i} tone={s.color}>
+                              {i}
+                            </Tag>
                           ))}
                         </div>
                       </div>
@@ -469,7 +493,9 @@ function CVPage() {
                 ) : (
                   <div className="mt-5 flex flex-wrap gap-1.5">
                     {s.items?.map((i) => (
-                      <Tag key={i}>{i}</Tag>
+                      <Tag key={i} tone={s.color}>
+                        {i}
+                      </Tag>
                     ))}
                   </div>
                 )}
@@ -627,9 +653,12 @@ function Section({
   );
 }
 
-function Tag({ children }: { children: React.ReactNode }) {
+function Tag({ children, tone }: { children: React.ReactNode; tone?: string }) {
   return (
-    <span className="inline-flex items-center rounded-full border border-border bg-background px-2.5 py-1 text-xs text-foreground/85">
+    <span
+      className="inline-flex items-center rounded-lg border border-border bg-secondary/60 px-3 py-1.5 text-xs font-medium text-foreground/85 transition-colors"
+      style={tone ? { borderColor: `color-mix(in oklch, ${tone} 35%, var(--border))` } : undefined}
+    >
       {children}
     </span>
   );
