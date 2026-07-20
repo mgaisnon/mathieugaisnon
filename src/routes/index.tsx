@@ -304,8 +304,9 @@ function CVPage() {
         </div>
       )}
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <header className="relative sticky top-0 z-40 overflow-hidden border-b border-border/60 bg-background/80 backdrop-blur-md">
+        <FloatingLogos />
+        <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#moi" className="flex items-center gap-2">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground font-display text-lg">
               M
