@@ -305,7 +305,6 @@ function CVPage() {
       )}
       {/* Header */}
       <header className="relative sticky top-0 z-40 overflow-hidden border-b border-border/60 bg-background/80 backdrop-blur-md">
-        <FloatingLogos />
         <div className="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#moi" className="flex items-center gap-2">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground font-display text-lg">
@@ -363,8 +362,9 @@ function CVPage() {
 
       <main className="relative mx-auto max-w-6xl px-6">
         {/* Présentation */}
-        <section id="moi" className="scroll-mt-32 pt-16 pb-24 md:scroll-mt-36 md:pt-24 md:pb-32">
-          <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center">
+        <section id="moi" className="relative scroll-mt-32 pt-16 pb-24 md:scroll-mt-36 md:pt-24 md:pb-32">
+          <FloatingLogos />
+          <div className="relative grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary" />
