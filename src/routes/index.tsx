@@ -19,6 +19,7 @@ import {
   Languages,
   MonitorSmartphone,
 } from "lucide-react";
+import { FloatingLogos } from "@/components/FloatingLogos";
 
 export const Route = createFileRoute("/")({
   component: CVPage,
