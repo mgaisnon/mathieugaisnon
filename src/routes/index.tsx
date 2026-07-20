@@ -18,6 +18,12 @@ import {
   GraduationCap,
   Languages,
   MonitorSmartphone,
+  Compass,
+  Shuffle,
+  CheckCircle2,
+  Puzzle,
+  Users,
+  Lightbulb,
 } from "lucide-react";
 import { FloatingLogos } from "@/components/FloatingLogos";
 
@@ -33,6 +39,7 @@ const NAV = [
   { id: "contact", label: "Contact" },
 ];
 
+// `tech` accepte soit un slug simple-icons (ex: "react"), soit un chemin local (ex: "/logos/java.png")
 const SKILLS = [
   {
     icon: Code2,
@@ -40,9 +47,32 @@ const SKILLS = [
     color: "var(--cat-1)",
     soft: "var(--cat-1-soft)",
     groups: [
-      { label: "Frontend", items: ["ReactJS", "TypeScript", "Angular", "HTML/CSS/JS"] },
-      { label: "Backend", items: ["RPG free", "RPG 4", "CL", "ExpressJS", "Python"] },
-      { label: "Mobile", items: ["Java", "Kotlin"] },
+      {
+        label: "Frontend",
+        items: [
+          { label: "ReactJS", tech: "react" },
+          { label: "TypeScript", tech: "typescript" },
+          { label: "Angular", tech: "angular" },
+          { label: "HTML/CSS/JS", tech: "html5" },
+        ],
+      },
+      {
+        label: "Backend",
+        items: [
+          { label: "RPG free" },
+          { label: "RPG 4" },
+          { label: "CL" },
+          { label: "ExpressJS", tech: "express" },
+          { label: "Python", tech: "python" },
+        ],
+      },
+      {
+        label: "Mobile",
+        items: [
+          { label: "Java", tech: "/logos/java.png" },
+          { label: "Kotlin", tech: "kotlin" },
+        ],
+      },
     ],
   },
   {
@@ -50,14 +80,23 @@ const SKILLS = [
     title: "Systèmes d'exploitation",
     color: "var(--cat-2)",
     soft: "var(--cat-2-soft)",
-    items: ["IBM i (AS400)", "Linux"],
+    items: [
+      { label: "IBM i (AS400)", tech: "/logos/ibm.png" },
+      { label: "Linux", tech: "linux" },
+    ],
   },
   {
     icon: Database,
     title: "Bases de données",
     color: "var(--cat-3)",
     soft: "var(--cat-3-soft)",
-    items: ["IBM DB2", "MySQL", "SQL", "PostgreSQL", "NoSQL"],
+    items: [
+      { label: "IBM DB2", tech: "/logos/ibm.png" },
+      { label: "MySQL", tech: "mysql" },
+      { label: "SQL" },
+      { label: "PostgreSQL", tech: "postgresql" },
+      { label: "NoSQL" },
+    ],
   },
   {
     icon: Wrench,
@@ -65,14 +104,14 @@ const SKILLS = [
     color: "var(--cat-4)",
     soft: "var(--cat-4-soft)",
     items: [
-      "GitLab CI/CD",
-      "Docker",
-      "Jira",
-      "Confluence",
-      "Selenium",
-      "ARCAD",
-      "Cycle en V",
-      "Agile",
+      { label: "GitLab CI/CD", tech: "gitlab" },
+      { label: "Docker", tech: "docker" },
+      { label: "Jira", tech: "jira" },
+      { label: "Confluence", tech: "confluence" },
+      { label: "Selenium", tech: "selenium" },
+      { label: "ARCAD" },
+      { label: "Cycle en V" },
+      { label: "Agile" },
     ],
   },
   {
@@ -81,14 +120,23 @@ const SKILLS = [
     color: "var(--cat-5)",
     soft: "var(--cat-5-soft)",
     items: [
-      "Maintenance applicative",
-      "Analyse d'impact",
-      "Support niveau 3",
-      "Recherche d'incidents",
-      "Analyse & documentation technique",
-      "Création de fonctionnalités",
+      { label: "Maintenance applicative" },
+      { label: "Analyse d'impact" },
+      { label: "Support niveau 3" },
+      { label: "Recherche d'incidents" },
+      { label: "Analyse & documentation technique" },
+      { label: "Création de fonctionnalités" },
     ],
   },
+];
+
+const SOFT_SKILLS = [
+  { label: "Autonome", icon: Compass },
+  { label: "Adaptabilité", icon: Shuffle },
+  { label: "Rigueur", icon: CheckCircle2 },
+  { label: "Résolution de problèmes", icon: Puzzle },
+  { label: "Travail d'équipe", icon: Users },
+  { label: "Curieux", icon: Lightbulb },
 ];
 
 const EXPERIENCES = [
@@ -452,71 +500,92 @@ function CVPage() {
           subtitle="Les technos, systèmes et savoir-faire que j'utilise au quotidien."
         >
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {SKILLS.map((s) => (
-              <div
-                key={s.title}
-                className="group rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-md"
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = `color-mix(in oklch, ${s.color} 45%, var(--border))`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "";
-                }}
-              >
-                <div className="flex items-center gap-3">
+            {SKILLS.map((s) => {
+              const count = s.groups
+                ? s.groups.reduce((acc, g) => acc + g.items.length, 0)
+                : (s.items?.length ?? 0);
+              return (
+                <div
+                  key={s.title}
+                  className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = `color-mix(in oklch, ${s.color} 45%, var(--border))`;
+                    e.currentTarget.style.boxShadow = `0 16px 36px -18px color-mix(in oklch, ${s.color} 55%, transparent)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "";
+                    e.currentTarget.style.boxShadow = "";
+                  }}
+                >
                   <span
-                    className="flex h-10 w-10 items-center justify-center rounded-xl"
-                    style={{ backgroundColor: s.soft, color: s.color }}
-                  >
-                    <s.icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="font-display text-xl">{s.title}</h3>
-                </div>
+                    className="absolute inset-x-0 top-0 h-1 scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
+                    style={{ backgroundColor: s.color }}
+                  />
 
-                {"groups" in s && s.groups ? (
-                  <div className="mt-5 space-y-4">
-                    {s.groups.map((g) => (
-                      <div key={g.label}>
-                        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                          {g.label}
-                        </p>
-                        <div className="mt-2 flex flex-wrap gap-1.5">
-                          {g.items.map((i) => (
-                            <Tag key={i} tone={s.color}>
-                              {i}
-                            </Tag>
-                          ))}
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <span
+                        className="flex h-11 w-11 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110"
+                        style={{ backgroundColor: s.soft, color: s.color }}
+                      >
+                        <s.icon className="h-5 w-5" />
+                      </span>
+                      <h3 className="font-display text-xl">{s.title}</h3>
+                    </div>
+                    <span
+                      className="rounded-full px-2.5 py-1 text-[11px] font-semibold tabular-nums"
+                      style={{ backgroundColor: s.soft, color: s.color }}
+                    >
+                      {count}
+                    </span>
+                  </div>
+
+                  {"groups" in s && s.groups ? (
+                    <div className="mt-5 space-y-4">
+                      {s.groups.map((g) => (
+                        <div key={g.label}>
+                          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            {g.label}
+                          </p>
+                          <div className="mt-2 flex flex-wrap gap-1.5">
+                            {g.items.map((i) => (
+                              <Tag key={i.label} tone={s.color} tech={i.tech}>
+                                {i.label}
+                              </Tag>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="mt-5 flex flex-wrap gap-1.5">
-                    {s.items?.map((i) => (
-                      <Tag key={i} tone={s.color}>
-                        {i}
-                      </Tag>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="mt-5 flex flex-wrap gap-1.5">
+                      {s.items?.map((i) => (
+                        <Tag key={i.label} tone={s.color} tech={i.tech}>
+                          {i.label}
+                        </Tag>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
-          <div className="mt-6 rounded-2xl border border-dashed border-border bg-card/40 p-6">
+          <div className="mt-6 rounded-2xl border border-border bg-card/60 p-6">
             <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
               Savoir-être
             </p>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {[
-                "Autonome",
-                "Adaptabilité",
-                "Rigueur",
-                "Résolution de problèmes",
-                "Travail d'équipe",
-                "Curieux",
-              ].map((i) => (
-                <Tag key={i}>{i}</Tag>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {SOFT_SKILLS.map((i) => (
+                <span
+                  key={i.label}
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 py-1.5 pl-1.5 pr-3.5 text-xs font-medium text-foreground/85 transition-all hover:-translate-y-0.5 hover:border-primary/40"
+                >
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary-soft text-primary">
+                    <i.icon className="h-3.5 w-3.5" />
+                  </span>
+                  {i.label}
+                </span>
               ))}
             </div>
           </div>
@@ -653,12 +722,36 @@ function Section({
   );
 }
 
-function Tag({ children, tone }: { children: React.ReactNode; tone?: string }) {
+function Tag({
+  children,
+  tone,
+  tech,
+}: {
+  children: React.ReactNode;
+  tone?: string;
+  tech?: string;
+}) {
+  const src = tech
+    ? tech.startsWith("/")
+      ? tech
+      : `https://cdn.simpleicons.org/${tech}`
+    : undefined;
   return (
     <span
-      className="inline-flex items-center rounded-lg border border-border bg-secondary/60 px-3 py-1.5 text-xs font-medium text-foreground/85 transition-colors"
+      className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-secondary/60 px-3 py-1.5 text-xs font-medium text-foreground/85 transition-all hover:-translate-y-0.5 hover:bg-secondary"
       style={tone ? { borderColor: `color-mix(in oklch, ${tone} 35%, var(--border))` } : undefined}
     >
+      {src && (
+        <img
+          src={src}
+          alt=""
+          className="h-3.5 w-3.5 shrink-0 object-contain"
+          loading="lazy"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).style.display = "none";
+          }}
+        />
+      )}
       {children}
     </span>
   );
